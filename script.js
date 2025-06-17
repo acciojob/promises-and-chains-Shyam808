@@ -1,5 +1,5 @@
 document.getElementById("voteForm").addEventListener("submit", function (e) {
-  e.preventDefault(); // Prevent form from refreshing the page
+  e.preventDefault(); // prevent actual form submission
 
   const name = document.getElementById("name").value.trim();
   const age = document.getElementById("age").value.trim();
@@ -9,21 +9,19 @@ document.getElementById("voteForm").addEventListener("submit", function (e) {
     return;
   }
 
-  const checkEligibility = new Promise(function (resolve, reject) {
+  const ageNum = Number(age);
+
+  const checkVotingEligibility = new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (parseInt(age) >= 18) {
-        resolve(name);
+      if (ageNum >= 18) {
+        resolve(`Welcome, ${name}. You can vote.`);
       } else {
-        reject(name);
+        reject(`Oh sorry ${name}. You aren't old enough.`);
       }
-    }, 4000); // 4 seconds delay
+    }, 4000);
   });
 
-  checkEligibility
-    .then(function (userName) {
-      alert(`Welcome, ${userName}. You can vote.`);
-    })
-    .catch(function (userName) {
-      alert(`Oh sorry ${userName}. You aren't old enough.`);
-    });
+  checkVotingEligibility
+    .then((message) => alert(message))
+    .catch((error) => alert(error));
 });
